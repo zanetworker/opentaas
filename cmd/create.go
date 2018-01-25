@@ -53,6 +53,8 @@ func newCreateCmd(out io.Writer) *cobra.Command {
 		},
 	}
 
+	createCmd.AddCommand(newGossCommand(out))
 	createCmd.AddCommand(newJenkinsCmd(out))
+
 	return createCmd
 }

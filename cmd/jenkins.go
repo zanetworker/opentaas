@@ -9,14 +9,14 @@ import (
 
 const jenkinsDesc = `This is the command used to create the Jenkins configuration templates will be stored in /config/jenkins/`
 
-type jenkinsCmd struct {
+type jenkinsParams struct {
 	out    io.Writer
 	user   string
 	secret string
 }
 
 func newJenkinsCmd(out io.Writer) *cobra.Command {
-	jenkins := &jenkinsCmd{out: out}
+	jenkins := &jenkinsParams{out: out}
 	jenkinsCmd := &cobra.Command{
 		Use:   "jenkins",
 		Short: "create jenkins configuration",
@@ -38,7 +38,6 @@ func newJenkinsCmd(out io.Writer) *cobra.Command {
 	return jenkinsCmd
 }
 
-func (c *jenkinsCmd) run() {
+func (c *jenkinsParams) run() {
 
-	//TO-DO Implement the templating here
 }

@@ -17,7 +17,7 @@ package main
 import (
 	"os"
 
-	taas_env "github.com/zanetworker/taas/pkg/taas/environment"
+	taas_env "github.com/zanetworker/taas/pkg/environment"
 
 	"github.com/spf13/cobra"
 )
