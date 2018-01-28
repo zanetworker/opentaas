@@ -15,7 +15,6 @@
 package main
 
 import (
-	"errors"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -47,13 +46,13 @@ func newCreateCmd(out io.Writer) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			_ = &createCmd{out: out}
 			if len(args) == 0 {
-				return errors.New(`The service to create was not provided, please read the help 'taas create --help' `)
+				return cmd.Help()
 			}
 			return nil
 		},
 	}
 
-	createCmd.AddCommand(newGossCommand(out))
+	createCmd.AddCommand(newGossCmd(out))
 	createCmd.AddCommand(newJenkinsCmd(out))
 
 	return createCmd

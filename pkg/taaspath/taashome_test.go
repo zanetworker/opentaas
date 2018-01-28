@@ -1,22 +1,21 @@
-package taaspath
+package taaspath_test
 
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/zanetworker/taas/pkg/taaspath"
+	"github.com/zanetworker/taas/pkg/testutils"
 )
 
 func TestTaasHome(t *testing.T) {
-	hh := Home("/r")
-	assert := assert.New(t)
-
-	assert.Equal(hh.String(), "/r", "theys should be equal")
-	assert.Equal(hh.TLSCaCert(), "/r/ca.pem")
-	assert.Equal(hh.TLSCert(), "/r/cert.pem")
-	assert.Equal(hh.TLSKey(), "/r/key.pem")
+	hh := taaspath.Home("/r")
+	testutils.Equals(t, hh.String(), "/r")
+	testutils.Equals(t, hh.TLSCaCert(), "/r/ca.pem")
+	testutils.Equals(t, hh.TLSCert(), "/r/cert.pem")
+	testutils.Equals(t, hh.TLSKey(), "/r/key.pem")
 }
 
 func TestTaasHomeExpand(t *testing.T) {
-	assert := assert.New(t)
-	assert.NotEqual(Home("$HOME").String(), "$HOME")
+	conditionToAssert := taaspath.Home("$HOME").String() != "$HOME"
+	testutils.Assert(t, conditionToAssert, "home variables is not expanded correctly")
 }

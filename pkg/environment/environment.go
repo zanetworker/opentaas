@@ -23,10 +23,10 @@ import (
 	"k8s.io/client-go/util/homedir"
 )
 
-// Deprecated
 const (
-	TaasEnvVar  = "TAAS_HOME"
-	DebugEnvVar = "TAAS_DEBUG"
+	TaaSEnvVar    = "TAAS_HOME"
+	ComposeEnvVar = "COMPOSE_DIR"
+	DebugEnvVar   = "TAAS_DEBUG"
 )
 
 // DefaultTaasHome is the default TAAS_HOME.
@@ -36,6 +36,10 @@ var DefaultTaasHome = filepath.Join(homedir.HomeDir(), ".taas")
 type EnvSettings struct {
 	// Home is the local path to the taas home directory.
 	Home taaspath.Home
+
+	// Compose is the location of the compose file
+	Compose string
+
 	// Debug indicates whether or not taas is running in Debug mode.
 	Debug bool
 }
@@ -43,18 +47,20 @@ type EnvSettings struct {
 // AddFlags binds flags to the given flagset.
 func (s *EnvSettings) AddFlags(fs *pflag.FlagSet) {
 	fs.StringVar((*string)(&s.Home), "home", DefaultTaasHome, "location of your Taas config. Overrides $TAAS_HOME")
+	fs.StringVar((*string)(&s.Home), "compose", "", "location of the output taas application compose file")
 	fs.BoolVar(&s.Debug, "debug", false, "enable verbose output")
 }
 
-// envMap maps flag names to envvars
-var envMap = map[string]string{
-	"debug": "TAAS_DEBUG",
-	"home":  "TAAS_HOME",
+// EnvMap maps flag names to envvars
+var EnvMap = map[string]string{
+	"debug":   "TAAS_DEBUG",
+	"home":    "TAAS_HOME",
+	"compose": "COMPOSE_DIR",
 }
 
 // Init sets values from the environment.
 func (s *EnvSettings) Init(fs *pflag.FlagSet) {
-	for name, envar := range envMap {
+	for name, envar := range EnvMap {
 		setFlagFromEnv(name, envar, fs)
 	}
 }

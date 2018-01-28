@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -20,10 +19,10 @@ func newJenkinsCmd(out io.Writer) *cobra.Command {
 	jenkinsCmd := &cobra.Command{
 		Use:   "jenkins",
 		Short: "create jenkins configuration",
-		Long:  jenkinsDesc,
+		Long:  "\n" + jenkinsDesc,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
-				return errors.New("missing flags")
+				cmd.Help()
 			}
 			return nil
 		},

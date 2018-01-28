@@ -1,4 +1,4 @@
-package environment
+package environment_test
 
 import (
 	"os"
@@ -6,7 +6,8 @@ import (
 	"testing"
 
 	"github.com/spf13/pflag"
-	"github.com/zanetworker/taas/pkg/taas/taaspath"
+	"github.com/zanetworker/taas/pkg/environment"
+	"github.com/zanetworker/taas/pkg/taaspath"
 )
 
 func TestEnvSettings(t *testing.T) {
@@ -24,7 +25,7 @@ func TestEnvSettings(t *testing.T) {
 		{
 			name: "defaults",
 			args: []string{},
-			home: DefaultTaasHome,
+			home: environment.DefaultTaasHome,
 		},
 		{
 			name:  "with flags set",
@@ -60,7 +61,7 @@ func TestEnvSettings(t *testing.T) {
 
 			flags := pflag.NewFlagSet("testing", pflag.ContinueOnError)
 
-			settings := &EnvSettings{}
+			settings := &environment.EnvSettings{}
 			settings.AddFlags(flags)
 			flags.Parse(tt.args)
 
@@ -83,7 +84,7 @@ func resetEnv() func() {
 	origEnv := os.Environ()
 
 	// ensure any local envvars do not hose us
-	for _, e := range envMap {
+	for _, e := range environment.EnvMap {
 		os.Unsetenv(e)
 	}
 

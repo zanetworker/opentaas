@@ -14,9 +14,69 @@
 
 package goss
 
-import "errors"
+import (
+	"os"
+	"strings"
 
-//GenerateGossFile generates a goos file that can be used later in our network debugging container
-func GenerateGossFile(portIPConnectionMapping []string) error {
-	return errors.New("failed you master")
+	"text/template"
+
+	"github.com/zanetworker/taas/pkg/log"
+)
+
+const gossTemplate = `
+{{- range $index, $connection:= . -}}
+{{$connectionArray := splitConnections $connection}}
+port:
+	{{get $connectionArray "protocol"}}:{{get $connectionArray "port"}}:
+		listening: true
+		ip:
+		- {{get $connectionArray "ip" -}}
+{{- end -}}
+`
+
+var tpl *template.Template
+
+// Functions to use in teh template
+var fm = template.FuncMap{
+	"splitConnections": splitConnections,
+	"get":              get,
+}
+
+//GenerateGossFile generates a goss file that can bes used later as a debugging service
+func GenerateGossFile(portIPConnectionMapping []string, outfile, outdir string) error {
+	outpath := outdir + "/" + outfile
+	f, err := os.Create(outpath)
+	if err != nil {
+		log.Error("failed to create template file", err)
+	}
+	return tpl.Execute(f, portIPConnectionMapping)
+}
+
+func init() {
+	// gossTemplatePath := getGossConfigDir() + "/" + "gossconfig.tpl"
+	tpl = template.Must(template.New("gossTemplate").Funcs(fm).Parse(gossTemplate))
+
+	//Parse all template files in parent directory
+	// composeParentTemplate := globalutils.GetDir("compose") + "/" + "tools.tpl"
+	// gossChildTemplate := globalutils.GetDir("goss") + "/" + "gosscompose.tpl"
+	// tplCompose = template.Must(template.ParseFiles(composeParentTemplate, gossChildTemplate))
+}
+
+func splitConnections(connectionToSplit string) []string {
+	splittedConnection := strings.Split(connectionToSplit, ":")
+	return splittedConnection
+}
+
+//get gets right part of the connection array based on the input e.g. "get connection port" would fetch the port
+func get(connection []string, partToGet string) string {
+	switch partToGet {
+	case "protocol":
+		return connection[0]
+	case "ip":
+		return connection[1]
+	case "port":
+		return connection[2]
+	default:
+		return ""
+	}
 }

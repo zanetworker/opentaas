@@ -17,9 +17,8 @@ package main
 import (
 	"os"
 
-	taas_env "github.com/zanetworker/taas/pkg/environment"
-
 	"github.com/spf13/cobra"
+	taas_env "github.com/zanetworker/taas/pkg/environment"
 )
 
 var (
@@ -27,19 +26,32 @@ var (
 	cfgFile  string
 )
 
-var globalUsage = `Tool-as-a-Service is a platform that provides DevOps tools on demand. 
+const globalUsage = `
+Tool-as-a-Service is a platform that provides DevOps tools on demand. 
 To begin working with taas, run the 'taas init' command:
 
 Environment:
 $TAAS_HOME          set an alternative location for Helm files. By default, these are stored in ~/.taas
 `
 
+var taasLogo = `
+_____           ____
+|_   _|_ _  __ _/ ___|
+  | |/ "|/"` + `_` + `\` + `___
+  | | (_| | (_| |___) |
+  |_|\__,_|\__,_|____/
+
+
+  `
+
+//NewRootCmd the root command for taas application
 func newRootCmd(args []string) *cobra.Command {
 	// rootCmd represents the base command when called without any subcommands
 	taasCmd := &cobra.Command{
 		Use:   "taas",
 		Short: "taas provides easily configurable services on the fly",
 		Long:  globalUsage,
+		Run:   runTaas,
 	}
 
 	flags := taasCmd.PersistentFlags()
@@ -50,6 +62,7 @@ func newRootCmd(args []string) *cobra.Command {
 		//taas commands
 		newCreateCmd(out),
 		newHomeCmd(out),
+		newComposeCmd(out),
 	)
 
 	flags.Parse(args)
@@ -59,8 +72,14 @@ func newRootCmd(args []string) *cobra.Command {
 	return taasCmd
 }
 
+func runTaas(cmd *cobra.Command, args []string) {
+	printLogo()
+	cmd.Help()
+}
+
 //Execute command for taas CLI
 func main() {
+
 	cmd := newRootCmd(os.Args[1:])
 	if err := cmd.Execute(); err != nil {
 		os.Exit(1)
