@@ -47,7 +47,7 @@ type EnvSettings struct {
 // AddFlags binds flags to the given flagset.
 func (s *EnvSettings) AddFlags(fs *pflag.FlagSet) {
 	fs.StringVar((*string)(&s.Home), "home", DefaultTaasHome, "location of your Taas config. Overrides $TAAS_HOME")
-	fs.StringVar((*string)(&s.Home), "compose", "", "location of the output taas application compose file")
+	//fs.StringVar((*string)(&s.Compose), "compose", "", "location of the output taas application compose file")
 	fs.BoolVar(&s.Debug, "debug", false, "enable verbose output")
 }
 
