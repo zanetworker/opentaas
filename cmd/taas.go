@@ -15,8 +15,11 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"runtime"
 
+	"github.com/morikuni/aec"
 	"github.com/spf13/cobra"
 	taas_env "github.com/zanetworker/taas/pkg/environment"
 )
@@ -60,6 +63,7 @@ func newRootCmd(args []string) *cobra.Command {
 	out := taasCmd.OutOrStdout()
 	taasCmd.AddCommand(
 		//taas commands
+		newVersionCmd(out),
 		newCreateCmd(out),
 		newHomeCmd(out),
 		newComposeCmd(out),
@@ -72,6 +76,14 @@ func newRootCmd(args []string) *cobra.Command {
 	return taasCmd
 }
 
+func printLogo() {
+	figletColoured := aec.BlueF.Apply(taasLogo)
+	if runtime.GOOS == "windows" {
+		figletColoured = aec.GreenF.Apply(taasLogo)
+	}
+	fmt.Printf(figletColoured)
+}
+
 func runTaas(cmd *cobra.Command, args []string) {
 	printLogo()
 	cmd.Help()
@@ -79,7 +91,6 @@ func runTaas(cmd *cobra.Command, args []string) {
 
 //Execute command for taas CLI
 func main() {
-
 	cmd := newRootCmd(os.Args[1:])
 	if err := cmd.Execute(); err != nil {
 		os.Exit(1)

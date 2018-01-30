@@ -2,10 +2,9 @@ package main
 
 import (
 	"io"
-	"path"
-	"runtime"
 
 	"github.com/spf13/cobra"
+	"github.com/zanetworker/taas/pkg/globalutils"
 	"github.com/zanetworker/taas/pkg/goss"
 	"github.com/zanetworker/taas/pkg/log"
 )
@@ -32,7 +31,7 @@ func newGossCmd(out io.Writer) *cobra.Command {
 	}
 
 	f := gossCmd.Flags()
-	gossConfigDir := getConfigDir()
+	gossConfigDir := globalutils.GetDir("config_goss")
 
 	f.StringArrayVar(&gossData.portIPConnectionMapping, "conn", []string{"tcp:localhost:8080"}, "connections for goss to validate")
 	f.StringVarP(&gossData.name, "name", "n", "gossconfig.yml", "name of the output file template")
@@ -52,12 +51,4 @@ func (g *gossParams) run() error {
 	}
 
 	return goss.GenerateGossFile(g.portIPConnectionMapping, g.name, g.path)
-}
-
-func getConfigDir() string {
-	_, filename, _, ok := runtime.Caller(1)
-	if ok {
-		return path.Join(path.Dir(filename), "../configs/goss/")
-	}
-	return ""
 }

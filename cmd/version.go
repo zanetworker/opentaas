@@ -2,27 +2,44 @@ package main
 
 import (
 	"fmt"
-	"runtime"
+	"io"
 
 	"github.com/spf13/cobra"
-
-	"github.com/morikuni/aec"
+	"github.com/zanetworker/taas/pkg/version"
 )
 
-func newVersionCmd(args []string) *cobra.Command {
+const versionDesc = `This command prints out the version of TaaS.`
+
+type versionCmdOpts struct {
+	out   io.Writer
+	short bool
+}
+
+func newVersionCmd(out io.Writer) *cobra.Command {
+
+	versionCmdOpts := &versionCmdOpts{out: out}
 
 	versionCmd := &cobra.Command{
 		Use:   "version",
 		Short: "get version",
+		Long:  "This command prints out the version of TaaS",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return versionCmdOpts.run(cmd)
+		},
 	}
+	f := versionCmd.Flags()
+
+	f.BoolVarP(&versionCmdOpts.short, "short", "s", false, "print only the version number and prefix of latest commit")
 
 	return versionCmd
 }
 
-func printLogo() {
-	figletColoured := aec.BlueF.Apply(taasLogo)
-	if runtime.GOOS == "windows" {
-		figletColoured = aec.GreenF.Apply(taasLogo)
+func (v *versionCmdOpts) run(cmd *cobra.Command) error {
+	vOpts := version.Options{}
+	version, err := vOpts.BuildVersion(v.short)
+	if err != nil {
+		return err
 	}
-	fmt.Printf(figletColoured)
+	fmt.Fprintf(v.out, "TaaS Version: %s", version)
+	return nil
 }

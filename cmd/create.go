@@ -18,6 +18,7 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
+	"github.com/zanetworker/taas/pkg/taaspath"
 )
 
 const createDesc = `This command creates is used to create service on demand (e.g., Jenkins, Nginx, ...etc)
@@ -31,12 +32,13 @@ For example, 'taas create jenkins -u user -p password'
 	  |- app.go    # the taas binary to be used for creating the configuration files
 `
 
-type createCmd struct {
-	out io.Writer
+type createCmdOpts struct {
+	home taaspath.Home
+	out  io.Writer
 }
 
 func newCreateCmd(out io.Writer) *cobra.Command {
-	// cc := &createCmd{out: out}
+	cc := &createCmdOpts{out: out}
 
 	// createCmd represents the create command
 	createCmd := &cobra.Command{
@@ -44,7 +46,7 @@ func newCreateCmd(out io.Writer) *cobra.Command {
 		Short: "create a service on demand with taas",
 		Long:  createDesc,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			_ = &createCmd{out: out}
+			cc.home = settings.Home
 			if len(args) == 0 {
 				return cmd.Help()
 			}
