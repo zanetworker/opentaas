@@ -22,11 +22,12 @@ import (
 	"github.com/morikuni/aec"
 	"github.com/spf13/cobra"
 	taas_env "github.com/zanetworker/taas/pkg/environment"
+	"github.com/zanetworker/taas/pkg/log"
 )
 
 var (
 	settings taas_env.EnvSettings
-	cfgFile  string
+	// cfgFile  string
 )
 
 const globalUsage = `
@@ -69,7 +70,9 @@ func newRootCmd(args []string) *cobra.Command {
 		newComposeCmd(out),
 	)
 
-	flags.Parse(args)
+	if err := flags.Parse(args); err != nil {
+		log.Error("Failed to parse flags", err)
+	}
 
 	// set defaults from environment
 	settings.Init(flags)
@@ -81,12 +84,16 @@ func printLogo() {
 	if runtime.GOOS == "windows" {
 		figletColoured = aec.GreenF.Apply(taasLogo)
 	}
-	fmt.Printf(figletColoured)
+	if _, err := fmt.Println(figletColoured); err != nil {
+		log.Error("Failed to print taas figlet", err)
+	}
 }
 
 func runTaas(cmd *cobra.Command, args []string) {
 	printLogo()
-	cmd.Help()
+	if err := cmd.Help(); err != nil {
+		log.Error("Failed to print taas command help", err)
+	}
 }
 
 //Execute command for taas CLI

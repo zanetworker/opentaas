@@ -1,15 +1,14 @@
 package version
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/zanetworker/taas/pkg/testutils"
 )
 
 func TestGetVersionHelper(t *testing.T) {
-	versionFile := filepath.Base(getVersion())
-	testutils.Assert(t, versionFile == "VERSION", "getVersion failed to return the path of the VERSION file")
+	version := getVersion()
+	testutils.Assert(t, len(version) > 0, "failed to retrieve version")
 }
 
 // func TestVersion(t *testing.T) {

@@ -5,6 +5,7 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
+	"github.com/zanetworker/taas/pkg/log"
 	"github.com/zanetworker/taas/pkg/version"
 )
 
@@ -22,7 +23,7 @@ func newVersionCmd(out io.Writer) *cobra.Command {
 	versionCmd := &cobra.Command{
 		Use:   "version",
 		Short: "get version",
-		Long:  "This command prints out the version of TaaS",
+		Long:  versionDesc,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return versionCmdOpts.run(cmd)
 		},
@@ -40,6 +41,8 @@ func (v *versionCmdOpts) run(cmd *cobra.Command) error {
 	if err != nil {
 		return err
 	}
-	fmt.Fprintf(v.out, "TaaS Version: %s", version)
+	if _, err := fmt.Fprintf(v.out, "TaaS Version: %s", version); err != nil {
+		log.Error("failed to create version string", err)
+	}
 	return nil
 }

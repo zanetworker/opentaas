@@ -9,10 +9,10 @@ import (
 
 func TestTaasHome(t *testing.T) {
 	hh := taaspath.Home("/r")
-	testutils.Equals(t, hh.String(), "/r")
-	testutils.Equals(t, hh.TLSCaCert(), "/r/ca.pem")
-	testutils.Equals(t, hh.TLSCert(), "/r/cert.pem")
-	testutils.Equals(t, hh.TLSKey(), "/r/key.pem")
+	testutils.Equals(t, hh.String(), "/r", "")
+	testutils.Equals(t, hh.TLSCaCert(), "/r/ca.pem", "TLSCACert is not working")
+	testutils.Equals(t, hh.TLSCert(), "/r/cert.pem", "TLSCert is not working")
+	testutils.Equals(t, hh.TLSKey(), "/r/key.pem", "TLSCACert is not working")
 }
 
 func TestTaasHomeExpand(t *testing.T) {

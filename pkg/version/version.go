@@ -2,7 +2,6 @@ package version
 
 import (
 	"encoding/json"
-	"io"
 	"runtime"
 	"time"
 )
@@ -15,7 +14,7 @@ type Options struct {
 	GOVersion string `json:"GOVersion,omitempty"`
 	GOARCH    string `json:"GOARCH,omitempty"`
 	GOOS      string `json:"GOOS,omitempty"`
-	out       io.Writer
+	// out       io.Writer
 }
 
 //BuildVersion returns a formatted version
@@ -30,7 +29,6 @@ func (v *Options) BuildVersion(short bool) (string, error) {
 		if err != nil {
 			return "", err
 		}
-
 		versionToReturn = string(marshalledVersionShort)
 	} else {
 		v.GitCommit = getGitCommit()
@@ -42,7 +40,6 @@ func (v *Options) BuildVersion(short bool) (string, error) {
 		if err != nil {
 			return "", err
 		}
-
 		versionToReturn = string(marshalledVersionLong)
 	}
 

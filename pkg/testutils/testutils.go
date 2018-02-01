@@ -1,6 +1,6 @@
 package testutils
 
-// Code modified from: https://github.com/benbjohnson/testing
+/* Code edited and modified from: https://github.com/benbjohnson/testing */
 
 import (
 	"fmt"

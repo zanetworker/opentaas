@@ -36,6 +36,7 @@ func newGossCmd(out io.Writer) *cobra.Command {
 	f.StringArrayVar(&gossData.portIPConnectionMapping, "conn", []string{"tcp:localhost:8080"}, "connections for goss to validate")
 	f.StringVarP(&gossData.name, "name", "n", "gossconfig.yml", "name of the output file template")
 	f.StringVarP(&gossData.path, "path", "p", gossConfigDir, "path of the output file template")
+	f.BoolVarP(&gossData.compose, "compose", "c", false, "if set to true, TaaS will add a goss subcomponent to the application compose file")
 	// f.BoolVarP(&gossData.compose, "compose", "c", false, "create a compose module for goss")
 
 	return gossCmd

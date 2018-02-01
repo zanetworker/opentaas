@@ -19,14 +19,20 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/pflag"
+	"github.com/zanetworker/taas/pkg/log"
 	"github.com/zanetworker/taas/pkg/taaspath"
 	"k8s.io/client-go/util/homedir"
 )
 
 const (
-	TaaSEnvVar    = "TAAS_HOME"
+	//TaaSEnvVar location of Taas Configuration file
+	TaaSEnvVar = "TAAS_HOME"
+
+	//ComposeEnvVar output location for the compose command
 	ComposeEnvVar = "COMPOSE_DIR"
-	DebugEnvVar   = "TAAS_DEBUG"
+
+	//DebugEnvVar debug environment variable
+	DebugEnvVar = "TAAS_DEBUG"
 )
 
 // DefaultTaasHome is the default TAAS_HOME.
@@ -70,6 +76,8 @@ func setFlagFromEnv(name, envar string, fs *pflag.FlagSet) {
 		return
 	}
 	if v, ok := os.LookupEnv(envar); ok {
-		fs.Set(name, v)
+		if err := fs.Set(name, v); err != nil {
+			log.Error("Failed to Set Env variable", err)
+		}
 	}
 }

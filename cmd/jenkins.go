@@ -4,6 +4,7 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
+	"github.com/zanetworker/taas/pkg/log"
 )
 
 const jenkinsDesc = `This is the command used to create the Jenkins configuration templates will be stored in /config/jenkins/`
@@ -22,9 +23,11 @@ func newJenkinsCmd(out io.Writer) *cobra.Command {
 		Long:  "\n" + jenkinsDesc,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if len(args) == 0 {
-				cmd.Help()
+				if err := cmd.Help(); err != nil {
+					log.Error("Help Failed", err)
+				}
 			}
-			return nil
+			return jenkins.run()
 		},
 	}
 
@@ -37,6 +40,6 @@ func newJenkinsCmd(out io.Writer) *cobra.Command {
 	return jenkinsCmd
 }
 
-func (c *jenkinsParams) run() {
-
+func (c *jenkinsParams) run() error {
+	return nil
 }
