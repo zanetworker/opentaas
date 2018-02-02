@@ -70,10 +70,6 @@ func newRootCmd(args []string) *cobra.Command {
 		newComposeCmd(out),
 	)
 
-	if err := flags.Parse(args); err != nil {
-		log.Error("Failed to parse flags", err)
-	}
-
 	// set defaults from environment
 	settings.Init(flags)
 	return taasCmd

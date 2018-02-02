@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
 	"testing"
 
+	yaml "github.com/ghodss/yaml"
 	"github.com/zanetworker/taas/pkg/testutils"
 )
 
@@ -37,6 +39,11 @@ func TestCompose(t *testing.T) {
 			id:    "composeGoss",
 			flags: []string{"-g"},
 		},
+		{
+			name:  "test taas compose --goss --jenkins --nginx",
+			id:    "composeAll",
+			flags: []string{"-g", "-j", "-n"},
+		},
 	}
 
 	for _, tt := range tests {
@@ -45,7 +52,6 @@ func TestCompose(t *testing.T) {
 		var composeFileToLookFor = "taascompose.yml"
 
 		t.Run(tt.name, func(t *testing.T) {
-
 			cmd := newComposeCmd(ioutil.Discard)
 
 			cmd.ParseFlags(tt.flags)
@@ -58,22 +64,52 @@ func TestCompose(t *testing.T) {
 			err = os.Chdir(composeLocation)
 			testutils.Ok(t, err)
 
+			//Check if the compose file was created
 			_, err = os.Stat(composeFileToLookFor)
 			testutils.Ok(t, err)
 
-			err = os.Remove(composeFileToLookFor)
-			testutils.Ok(t, err)
-		})
+			defer func() {
+				err = os.Remove(composeFileToLookFor)
+				testutils.Ok(t, err)
+			}()
 
-		checkKeyExistsInYml()
+			//Check if the right sub-components are created in the compose file
+			switch tt.id {
+			case "composeJenkins":
+				checkKeysExistsInYml(t, composeFileToLookFor, "jenkins")
+			case "composeNginx":
+				checkKeysExistsInYml(t, composeFileToLookFor, "nginx")
+			case "composeGoss":
+				checkKeysExistsInYml(t, composeFileToLookFor, "goss")
+			case "composeAll":
+				checkKeysExistsInYml(t, composeFileToLookFor, "jenkins", "goss", "nginx")
+			}
+
+		})
 	}
 }
 
+type ComposeFile struct {
+	Version  string                 `json:"version"` // Affects YAML field names too.
+	Networks map[string]interface{} `json:"networks"`
+	Services map[string]interface{} `json:"services"`
+}
+
 //checks wheather the compose file contains the corresponding service key
-func checkKeyExistsInYml() bool {
-	//TODO:
-	// Parse YML
-	// Check keys for services
-	// Return bool value if exists
-	return false
+func checkKeysExistsInYml(t *testing.T, yamlFilePath string, keysToCheck ...string) {
+	t.Helper()
+	dat, err := ioutil.ReadFile(yamlFilePath)
+	testutils.Ok(t, err)
+
+	cf := new(ComposeFile)
+	err = yaml.Unmarshal(dat, cf)
+	testutils.Ok(t, err)
+
+	for _, keyvalue := range keysToCheck {
+		_, found := cf.Services[keyvalue]
+		testutils.Assert(t, found, fmt.Sprintf("%s key was not found in compose yaml", keyvalue))
+	}
+	// _, ok := cf.Services[keyToCheck]
+	// testutils.Assert(t, ok, fmt.Sprintf("%s key was not found in compose yaml", keyToCheck))
+
 }

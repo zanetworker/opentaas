@@ -24,7 +24,7 @@ func newComposeCmd(out io.Writer) *cobra.Command {
 		Use:     "compose",
 		Short:   "create a compose file taas applications",
 		Long:    composeDesc,
-		Example: "taas compose --goss --jenklins --nginx",
+		Example: "taas compose --goss --jenkins --nginx",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return composeData.run(cmd)
 		},
@@ -42,5 +42,6 @@ func (c *composeParams) run(cmd *cobra.Command) error {
 	if !(c.jenkins || c.nginx || c.goss) {
 		return errors.New(globalutils.ColorString("red", "no flags has been set, please review the usage options below"))
 	}
+
 	return compose.AddComposeComponents(c.goss, c.jenkins, c.nginx)
 }

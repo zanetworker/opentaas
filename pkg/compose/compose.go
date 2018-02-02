@@ -26,7 +26,6 @@ func init() {
 
 //AddComposeComponents adds application sub-components to compose based on user input
 func AddComposeComponents(goss, jenkins, nginx bool) error {
-	log.Info("Adding Goss Compose Component...!")
 	outpath := globalutils.GetDir("config_parent") + "/" + "taascompose.yml"
 
 	f, err := os.Create(outpath)

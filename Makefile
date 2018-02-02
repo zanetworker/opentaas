@@ -1,11 +1,18 @@
 BIN_DIR := $(GOPATH)/bin
+VERSION ?= latest
+
 # support multi-package testing which go does not support natively. 
 GOVERAGE := $(BIN_DIR)/goverage 
 GOMETALINTER := $(BIN_DIR)/gometalinter
 TAAS_BUILD_DIR := $(GOPATH)/github.com/zanetworker/taas
 
-
 PKGS := $(shell go list ./... | grep -v /vendor)
+
+BINARY := taas
+PLATFORMS := darwin windows linux 
+os = $(word 1, $@)
+
+
 
 
 .PHONY: test 
@@ -28,5 +35,13 @@ lint: $(GOMETALINTER)
 
 
 
+release: 
+	mkdir -p release 
+
+.PHONY: $(PLATFORMS) 
+$(PLATFORMS): 
+	cd cmd && GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-$(VERSION)-$(os)-amd64
 
 
+.PHONY: releases
+releases: release darwin windows linux 
