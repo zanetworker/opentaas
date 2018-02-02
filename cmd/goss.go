@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/zanetworker/taas/pkg/globalutils"
 	"github.com/zanetworker/taas/pkg/goss"
-	"github.com/zanetworker/taas/pkg/log"
 )
 
 const gossDesc = `
@@ -43,13 +42,5 @@ func newGossCmd(out io.Writer) *cobra.Command {
 }
 
 func (g *gossParams) run() error {
-	log.Info("Creating goss file ...!")
-
-	//First Generate the Goss File with the inout connection array
-	err := goss.GenerateGossFile(g.portIPConnectionMapping, g.name, g.path)
-	if err != nil {
-		log.Error("Failed to Generate compose file", err)
-	}
-
 	return goss.GenerateGossFile(g.portIPConnectionMapping, g.name, g.path)
 }
