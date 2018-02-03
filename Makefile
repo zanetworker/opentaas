@@ -13,7 +13,6 @@ BINARY := taas
 PLATFORMS := darwin windows linux 
 os = $(word 1, $@)
 
-
 .PHONY: test 
 test: $(GOVERAGE) lint 
 	go test $(PKGS)

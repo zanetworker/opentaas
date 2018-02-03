@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// Options follow kubicorn versioning style
+// Options are the options for the version command
 type Options struct {
 	Version   string `json:"Version"`
 	GitCommit string `json:"GitCommit"`
@@ -21,7 +21,7 @@ type Options struct {
 func (v *Options) BuildVersion(short bool) (string, error) {
 
 	var versionToReturn string
-	v.Version = getVersion()
+	v.Version = "v" + getVersion()
 
 	if short {
 		v.GitCommit = getGitCommit()[:7]

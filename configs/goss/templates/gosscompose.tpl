@@ -5,7 +5,7 @@
     image: zanetworker/goss 
     networks:
       taasnetwork:
-{{- end }}
+{{ end }}
 
 
 
