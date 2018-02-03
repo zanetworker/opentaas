@@ -6,8 +6,8 @@ import jenkins.security.s2m.AdminWhitelistRule
 
 def instance = Jenkins.getInstance()
 
-def user = "admin"
-def pass = "password"
+def user = "{{.User}}"
+def pass = "{{.Pass}}"
 
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
 hudsonRealm.createAccount(user, pass)

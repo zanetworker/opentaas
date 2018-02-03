@@ -42,6 +42,5 @@ func (c *composeParams) run(cmd *cobra.Command) error {
 	if !(c.jenkins || c.nginx || c.goss) {
 		return errors.New(globalutils.ColorString("red", "no flags has been set, please review the usage options below"))
 	}
-
 	return compose.AddComposeComponents(c.goss, c.jenkins, c.nginx)
 }

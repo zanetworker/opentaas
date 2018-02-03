@@ -1,4 +1,12 @@
-taas
+#ignore editor binaries 
 .vscode 
+
+# ignore logs and test outputs 
 .log 
 .out 
+
+# ignore taas binary 
+taas
+
+# ignore release binaries
+release

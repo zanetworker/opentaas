@@ -19,6 +19,7 @@ import (
 
 	"text/template"
 
+	"github.com/zanetworker/taas/pkg/globalutils"
 	"github.com/zanetworker/taas/pkg/log"
 )
 
@@ -52,11 +53,9 @@ func GenerateGossFile(portIPConnectionMapping []string, outfile, outdir string) 
 }
 
 func init() {
-	// gossTemplatePath := getGossConfigDir() + "/" + "gossconfig.tpl"
-	tpl = template.Must(template.New("gossTemplate").Funcs(fm).Parse(gossTemplate))
-
-	//Parse all template files in parent directory
-	// composeParentTemplate := globalutils.GetDir("compose") + "/" + "tools.tpl"
+	gossTemplatePath := globalutils.GetDir("config_goss") + "/templates/" + "gossconfig.tpl"
+	// tpl = template.Must(template.New("gossTemplate").Funcs(fm).Parse(gossTemplate))
+	tpl = template.Must(template.New("gossTemplate").Funcs(fm).ParseFiles(gossTemplatePath))
 	// gossChildTemplate := globalutils.GetDir("goss") + "/" + "gosscompose.tpl"
-	// tplCompose = template.Must(template.ParseFiles(composeParentTemplate, gossChildTemplate))
+	// tplCompose = template.Must(template.ParseFiles(, gossChildTemplate))
 }

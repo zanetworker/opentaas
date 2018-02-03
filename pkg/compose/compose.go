@@ -18,9 +18,9 @@ type compose struct {
 func init() {
 	//Parse all template files in parent directory
 	composeParentTemplate := globalutils.GetDir("config_compose") + "/" + "tools.tpl"
-	gossChildTemplate := globalutils.GetDir("config_goss") + "/" + "gosscompose.tpl"
-	jenkinsChildTempltae := globalutils.GetDir("config_jenkins") + "/" + "jenkinscompose.tpl"
-	nginxChildTemplate := globalutils.GetDir("config_nginx") + "/" + "nginxcompose.tpl"
+	gossChildTemplate := globalutils.GetDir("config_goss") + "/templates/" + "gosscompose.tpl"
+	jenkinsChildTempltae := globalutils.GetDir("config_jenkins") + "/templates/" + "jenkinscompose.tpl"
+	nginxChildTemplate := globalutils.GetDir("config_nginx") + "/templates/" + "nginxcompose.tpl"
 	tplCompose = template.Must(template.ParseFiles(composeParentTemplate, gossChildTemplate, jenkinsChildTempltae, nginxChildTemplate))
 }
 

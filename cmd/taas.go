@@ -66,6 +66,7 @@ func newRootCmd(args []string) *cobra.Command {
 		//taas commands
 		newVersionCmd(out),
 		newCreateCmd(out),
+		newDeployCmd(out),
 		newHomeCmd(out),
 		newComposeCmd(out),
 	)

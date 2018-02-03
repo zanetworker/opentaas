@@ -1,5 +1,6 @@
 BIN_DIR := $(GOPATH)/bin
 VERSION ?= latest
+OS ?= darwin
 
 # support multi-package testing which go does not support natively. 
 GOVERAGE := $(BIN_DIR)/goverage 
@@ -13,13 +14,11 @@ PLATFORMS := darwin windows linux
 os = $(word 1, $@)
 
 
-
-
 .PHONY: test 
 test: $(GOVERAGE) lint 
 	go test $(PKGS)
-	goverage -v -coverprofile=coverage.out ./...
-	# go tool cover -html=coverage.out
+	goverage -race -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out
 
 $(GOMETALINTER):
 	go get -u github.com/alecthomas/gometalinter
@@ -34,7 +33,6 @@ lint: $(GOMETALINTER)
 	gometalinter ./... --vendor --errors
 
 
-
 release: 
 	mkdir -p release 
 
@@ -45,3 +43,14 @@ $(PLATFORMS):
 
 .PHONY: releases
 releases: release darwin windows linux 
+
+
+.PHONY: install 
+install: releases
+ifeq ($(OS),darwin)
+	cp release/$(BINARY)-$(VERSION)-darwin-amd64 $(GOPATH)/bin/taas
+else ifeq ($(OS),linux)
+	cp release/$(BINARY)-$(VERSION)-linux-amd64 $(GOPATH)/bin/taas
+else 
+	cp release/$(BINARY)-$(VERSION)-windows-amd64 $(GOPATH)/bin/taas
+endif

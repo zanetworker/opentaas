@@ -1,8 +1,13 @@
 # Contains goss container configuration for integration later with compose
-{{- define "jenkinscompose" }}
-  jenkins:
-    build: .
-    image: zanetworker/jenkins
+{{- define "gosscompose" -}}
+  goss:
+    build: goss/
+    image: zanetworker/goss 
     networks:
       taasnetwork:
-{{- end -}}
+{{- end }}
+
+
+
+
+

@@ -1,0 +1,30 @@
+
+version: '3.1'
+
+networks:
+  taasnetwork:
+
+volumes: 
+  jenkinsdata:
+  jenkinsconf:
+  jenkinsjobs:
+
+services: 
+  goss:
+    build: goss/
+    image: zanetworker/goss 
+    networks:
+      taasnetwork:
+  jenkins: 
+    build: jenkins/
+    volumes:
+      - jenkinsdata:/var/log/jenkins
+      - jenkinsconf:/var/jenkins_home
+      - jenkinsjobs:/var/jenkins_jobs
+    networks:
+      taasnetwork:
+  nginx:
+    build: nginx/
+    networks:
+      taasnetwork:
+
