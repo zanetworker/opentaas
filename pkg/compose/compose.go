@@ -1,6 +1,7 @@
 package compose
 
 import (
+	"errors"
 	"os"
 	"text/template"
 
@@ -26,6 +27,7 @@ func init() {
 
 //AddComposeComponents adds application sub-components to compose based on user input
 func AddComposeComponents(goss, jenkins, nginx bool) error {
+	//TODO:  change parameters from fixed services to an array of services
 	outpath := globalutils.GetDir("config_parent") + "/" + "taascompose.yml"
 
 	f, err := os.Create(outpath)
@@ -33,6 +35,23 @@ func AddComposeComponents(goss, jenkins, nginx bool) error {
 		log.Error("failed to create template file", err)
 	}
 
+	if goss {
+		if !checkConfigCreated("goss") {
+			return errors.New("Please create a goss service (e.g., \"taas create goss\")  before using composing it")
+		}
+	}
+
+	if jenkins {
+		if !checkConfigCreated("jenkins") {
+			return errors.New("Please create a jenkins service (e.g., \"taas create jenkins\") before using composing it")
+		}
+	}
+
+	if nginx {
+		if !checkConfigCreated("nginx") {
+			return errors.New("Please create an nginx service (e.g., \"taas create nginx\") before using composing it")
+		}
+	}
 	composeParams.Goss = goss
 	composeParams.Jenkins = jenkins
 	composeParams.Nginx = nginx

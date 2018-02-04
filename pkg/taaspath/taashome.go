@@ -20,7 +20,6 @@ import (
 )
 
 // Home describes the location of a CLI configuration.
-//
 // This helper builds paths relative to a taas Home directory.
 type Home string
 

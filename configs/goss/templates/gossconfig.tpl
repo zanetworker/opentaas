@@ -1,3 +1,4 @@
+{{define "gossconfig"}}
 {{- range $index, $connection:= . -}}
 {{$connectionArray := splitConnections $connection}}
 port:
@@ -6,3 +7,4 @@ port:
 		ip:
 		- {{get $connectionArray "ip" -}}
 {{- end -}}
+{{end}}

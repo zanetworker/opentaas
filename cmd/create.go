@@ -21,15 +21,17 @@ import (
 	"github.com/zanetworker/taas/pkg/taaspath"
 )
 
-const createDesc = `This command creates is used to create service on demand (e.g., Jenkins, Nginx, ...etc)
+const createDesc = `
+This command creates is used to create service on demand (e.g., Jenkins, Nginx, Goss, ...etc).
+For example, 'taas create goss' will result in the following directory structure for the Goss Service ("out" contains our configuration file)
 
-For example, 'taas create jenkins -u user -p password' 
-
-	config/
-	  |
-	  |- Dockerfile.jenkins   # Contains patterns to ignore when packaging Helm charts.
-	  |
-	  |- app.go    # the taas binary to be used for creating the configuration files
+goss
+├── Dockerfile
+├── out
+│   └── gossconfig.yml
+└── templates
+    ├── gosscompose.tpl
+    └── gossconfig.tpl
 `
 
 type createCmdOpts struct {
@@ -56,6 +58,6 @@ func newCreateCmd(out io.Writer) *cobra.Command {
 
 	createCmd.AddCommand(newGossCmd(out))
 	createCmd.AddCommand(newJenkinsCmd(out))
-
+	createCmd.AddCommand(newNginxCmd(out))
 	return createCmd
 }

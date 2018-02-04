@@ -1,7 +1,7 @@
 # Contains goss container configuration for integration later with compose
 {{ define "jenkinscompose" -}}
   jenkins: 
-    {{if .}} {{- template "jenkinsnginx" -}} {{end}}
+    container_name: jenkins
     build: jenkins/
     volumes:
       - jenkinsdata:/var/log/jenkins
@@ -20,9 +20,4 @@
 {{- define "jenkinsports" -}}
 ports:
     - 50000:50000
-{{- end -}}
-
-{{- define "jenkinsnginx" -}}
-  depends_on:
-    - nginx
 {{- end -}}

@@ -1,3 +1,5 @@
+{{- define "jenkinsGroovy" -}}
+
 #!groovy
 
 import jenkins.model.*
@@ -19,3 +21,4 @@ instance.save()
 
 Jenkins.instance.getInjector().getInstance(AdminWhitelistRule.class).setMasterKillSwitch(false)
 
+{{- end -}}

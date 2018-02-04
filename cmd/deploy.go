@@ -5,11 +5,14 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
+	"github.com/zanetworker/taas/pkg/globalutils"
 )
 
 // deploy a service on demand based on connectivity graph described in some yaml somewhere
 const deployDesc = `
-This command allows you to deploy your compose file locally or remotely`
+This command allows you to deploy your compose file locally or remotely
+//TODO: This should deploy to hosted or cloud-based components, and should provide options to monitor and secure the deployment
+`
 
 type deployParams struct {
 	out            io.Writer
@@ -35,5 +38,5 @@ func newDeployCmd(out io.Writer) *cobra.Command {
 }
 
 func (d *deployParams) run() error {
-	return errors.New("Not implemented at the moment, but you can implement me :)")
+	return errors.New(globalutils.ColorString("red", "Not implemented at the moment, but you can implement me :)"))
 }

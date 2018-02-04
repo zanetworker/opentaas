@@ -21,6 +21,8 @@ import (
 
 	"github.com/morikuni/aec"
 	"github.com/spf13/cobra"
+	"github.com/spf13/cobra/doc"
+
 	taas_env "github.com/zanetworker/taas/pkg/environment"
 	"github.com/zanetworker/taas/pkg/log"
 )
@@ -31,22 +33,23 @@ var (
 )
 
 const globalUsage = `
-Tool-as-a-Service is a platform that provides DevOps tools on demand. 
-To begin working with taas, run the 'taas init' command:
+OpenTaaS (Tool-as-a-Service) is a platform that provides DevOps tools on demand (lego style). relieving you from manually configuring and tinkering with the tools config files.
+It should also deploy, monitors, and secures them for you on the platform of choice (e.g., hosted ~ [k8s, compose, swarm, etc]  or cloud-based ~ [AWS, OpenStack, Azure, etc])   
 
 Environment:
-$TAAS_HOME          set an alternative location for Helm files. By default, these are stored in ~/.taas
+$TAAS_HOME          set an alternative TaaS location for files. By default, these are stored in ~/.taas
 `
 
-var taasLogo = `
-_____           ____
-|_   _|_ _  __ _/ ___|
-  | |/ "|/"` + `_` + `\` + `___
-  | | (_| | (_| |___) |
-  |_|\__,_|\__,_|____/
-
-
-  `
+var taasLogo = ` 
+#######                      #######                #####  
+#     # #####  ###### #    #    #      ##     ##   #     # 
+#     # #    # #      ##   #    #     #  #   #  #  #       
+#     # #    # #####  # #  #    #    #    # #    #  #####  
+#     # #####  #      #  # #    #    ###### ######       # 
+#     # #      #      #   ##    #    #    # #    # #     # 
+####### #      ###### #    #    #    #    # #    #  #####  
+                                                                      
+`
 
 //NewRootCmd the root command for taas application
 func newRootCmd(args []string) *cobra.Command {
@@ -77,9 +80,9 @@ func newRootCmd(args []string) *cobra.Command {
 }
 
 func printLogo() {
-	figletColoured := aec.BlueF.Apply(taasLogo)
+	figletColoured := aec.RedF.Apply(taasLogo)
 	if runtime.GOOS == "windows" {
-		figletColoured = aec.GreenF.Apply(taasLogo)
+		figletColoured = aec.BlueF.Apply(taasLogo)
 	}
 	if _, err := fmt.Println(figletColoured); err != nil {
 		log.Error("Failed to print taas figlet", err)
@@ -98,5 +101,10 @@ func main() {
 	cmd := newRootCmd(os.Args[1:])
 	if err := cmd.Execute(); err != nil {
 		os.Exit(1)
+	}
+
+	err := doc.GenMarkdownTree(cmd, "./doc")
+	if err != nil {
+		log.Fatal(err)
 	}
 }

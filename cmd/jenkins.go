@@ -8,7 +8,8 @@ import (
 	"github.com/zanetworker/taas/pkg/jenkins"
 )
 
-const jenkinsDesc = `This is the command used to create the Jenkins configuration templates will be stored in /config/jenkins/`
+const jenkinsDesc = `
+This is the command used to create the Jenkins configuration templates will be stored in /config/jenkins/`
 
 type jenkinsParams struct {
 	out          io.Writer
@@ -21,7 +22,7 @@ func newJenkinsCmd(out io.Writer) *cobra.Command {
 	jenkinsCmd := &cobra.Command{
 		Use:   "jenkins",
 		Short: "create jenkins configuration",
-		Long:  "\n" + jenkinsDesc,
+		Long:  jenkinsDesc,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return jenkins.run()
 		},

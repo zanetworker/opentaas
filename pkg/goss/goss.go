@@ -23,16 +23,16 @@ import (
 	"github.com/zanetworker/taas/pkg/log"
 )
 
-const gossTemplate = `
-{{- range $index, $connection:= . -}}
-{{$connectionArray := splitConnections $connection}}
-port:
-	{{get $connectionArray "protocol"}}:{{get $connectionArray "port"}}:
-		listening: true
-		ip:
-		- {{get $connectionArray "ip" -}}
-{{- end -}}
-`
+// const gossTemplate = `
+// {{- range $index, $connection:= . -}}
+// {{$connectionArray := splitConnections $connection}}
+// port:
+// 	{{get $connectionArray "protocol"}}:{{get $connectionArray "port"}}:
+// 		listening: true
+// 		ip:
+// 		- {{get $connectionArray "ip" -}}
+// {{- end -}}
+// `
 
 var tpl *template.Template
 
@@ -42,20 +42,42 @@ var fm = template.FuncMap{
 	"get":              get,
 }
 
+func init() {
+	gossTemplatePath := globalutils.GetDir("config_goss") + "/templates/" + "gossconfig.tpl"
+	gossDockerfile := globalutils.GetDir("config_goss") + "/templates/" + "Dockerfile.tpl"
+	tpl = template.Must(template.New("").Funcs(fm).ParseFiles(gossTemplatePath, gossDockerfile))
+}
+
 //GenerateGossFile generates a goss file that can bes used later as a debugging service
 func GenerateGossFile(portIPConnectionMapping []string, outfile, outdir string) error {
-	outpath := outdir + "/" + outfile
-	f, err := os.Create(outpath)
+	gossConfigOutDir := outdir + "/out/"
+
+	if _, err := os.Stat(outdir); os.IsNotExist(err) {
+		err := os.Mkdir(outdir, 0777)
+		if err != nil {
+			return err
+		}
+	}
+	gossConfigOutPath := gossConfigOutDir + outfile
+	f, err := os.Create(gossConfigOutPath)
 	if err != nil {
 		log.Error("failed to create template file", err)
 	}
-	return tpl.Execute(f, portIPConnectionMapping)
+
+	err = tpl.ExecuteTemplate(f, "gossconfig", portIPConnectionMapping)
+	if err != nil {
+		return err
+	}
+
+	//now its time to generate goss Dockerfile
+	return generateGossDockerFile(outdir, outfile)
 }
 
-func init() {
-	gossTemplatePath := globalutils.GetDir("config_goss") + "/templates/" + "gossconfig.tpl"
-	// tpl = template.Must(template.New("gossTemplate").Funcs(fm).Parse(gossTemplate))
-	tpl = template.Must(template.New("gossTemplate").Funcs(fm).ParseFiles(gossTemplatePath))
-	// gossChildTemplate := globalutils.GetDir("goss") + "/" + "gosscompose.tpl"
-	// tplCompose = template.Must(template.ParseFiles(, gossChildTemplate))
+func generateGossDockerFile(dockerFileOutDir, gossConfigFileName string) error {
+	gossDockerfileOutPath := dockerFileOutDir + "/" + "Dockerfile"
+	dockerfile, err := os.Create(gossDockerfileOutPath)
+	if err != nil {
+		log.Error("failed to create template file", err)
+	}
+	return tpl.ExecuteTemplate(dockerfile, "gossDocker", gossConfigFileName)
 }

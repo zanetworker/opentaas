@@ -53,3 +53,12 @@ else ifeq ($(OS),linux)
 else 
 	cp release/$(BINARY)-$(VERSION)-windows-amd64 $(GOPATH)/bin/taas
 endif
+
+# For developers to do dry-run builds
+.PHONY: dry
+dry: 
+	@- cd cmd && GOOS=$(OS) GOARCH=amd64 go build -o ../$(BINARY)
+
+.PHONY: doc 
+doc: dry 
+	@-./$(BINARY)  > /dev/null  2>&1 || true 

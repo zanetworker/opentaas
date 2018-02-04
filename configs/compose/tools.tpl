@@ -9,8 +9,8 @@ volumes:
 
 services: 
   {{if .Goss}}{{- template "gosscompose" -}}{{end}}
-  {{if .Nginx}}{{- template "nginxcompose" -}}{{end}}
-  {{if .Jenkins}}{{- template "jenkinscompose" .Nginx -}}{{end}}
+  {{if .Nginx}}{{- template "nginxcompose" .Jenkins -}}{{end}}
+  {{if .Jenkins}}{{- template "jenkinscompose" -}}{{end}}
 
 {{end}}
 

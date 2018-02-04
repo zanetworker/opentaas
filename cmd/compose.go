@@ -31,6 +31,8 @@ func newComposeCmd(out io.Writer) *cobra.Command {
 	}
 
 	f := composeCmd.Flags()
+
+	//TODO: add parameters for flags to customize the compose file e.g., taas compose -j "ports:8081"
 	f.BoolVarP(&composeData.goss, "goss", "g", false, "add goss sub-component to compose file")
 	f.BoolVarP(&composeData.jenkins, "jenkins", "j", false, "add jenkins sub-component to compose file")
 	f.BoolVarP(&composeData.nginx, "nginx", "n", false, "add nginx sub-component to compose file")

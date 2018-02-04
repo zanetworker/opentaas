@@ -9,20 +9,25 @@ import (
 )
 
 var tpl *template.Template
-var fm = template.FuncMap{
-	"": "",
-}
 
 func init() {
 
 	jenkinsGroovyTemplate := globalutils.GetDir("config_jenkins") + "/templates/" + "security.groovy.tpl"
-	tpl = template.Must(template.ParseFiles(jenkinsGroovyTemplate))
+	jenkinsDockerFile := globalutils.GetDir("config_jenkins") + "/templates/" + "Dockerfile.tpl"
+	tpl = template.Must(template.ParseFiles(jenkinsGroovyTemplate, jenkinsDockerFile))
 
 }
 
-//GenerateJenkinsSecurityGroovy generates a goss file that can bes used later as a debugging service
+//GenerateJenkinsSecurityGroovy generates a groovy file that pre-fconfigures jenkins
 func GenerateJenkinsSecurityGroovy(outdir string, username, password string) error {
-	outpath := outdir + "/" + "security.groovy"
+	jenkinsGroovyOutDir := outdir + "/out/"
+	if _, err := os.Stat(jenkinsGroovyOutDir); os.IsNotExist(err) {
+		err := os.Mkdir(jenkinsGroovyOutDir, 0777)
+		if err != nil {
+			return err
+		}
+	}
+	outpath := jenkinsGroovyOutDir + "security.groovy"
 	f, err := os.Create(outpath)
 	if err != nil {
 		log.Error("failed to create template file", err)
@@ -34,5 +39,24 @@ func GenerateJenkinsSecurityGroovy(outdir string, username, password string) err
 		Pass: password,
 	}
 
-	return tpl.Execute(f, jenkinsCreds)
+	err = tpl.ExecuteTemplate(f, "jenkinsGroovy", jenkinsCreds)
+	if err != nil {
+		log.Error("Failed to create jenkins groovy from template", err)
+	}
+	return generateJenkinsDockerFile(outdir)
+}
+
+func generateJenkinsDockerFile(dockerFileOutDir string) error {
+	jenkinsDockerfileOutPath := dockerFileOutDir + "/" + "Dockerfile"
+	dockerfile, err := os.Create(jenkinsDockerfileOutPath)
+	if err != nil {
+		log.Error("failed to create template file", err)
+	}
+
+	data := struct {
+		Port string
+	}{
+		Port: "5001",
+	}
+	return tpl.ExecuteTemplate(dockerfile, "jenkinsDocker", data)
 }
