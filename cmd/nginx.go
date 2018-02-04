@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/zanetworker/taas/pkg/globalutils"
-	"github.com/zanetworker/taas/pkg/log"
 	"github.com/zanetworker/taas/pkg/nginx"
 )
 
@@ -41,6 +40,5 @@ func newNginxCmd(out io.Writer) *cobra.Command {
 }
 
 func (n *nginxParams) run() error {
-	log.Info("i am called")
 	return nginx.GenerateNginxConfFile(n.configPath, n.nginxServerPortMapping, n.clientServiceToPortMappings)
 }

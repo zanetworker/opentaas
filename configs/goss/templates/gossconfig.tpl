@@ -1,10 +1,10 @@
 {{define "gossconfig"}}
+---
+addr:
 {{- range $index, $connection:= . -}}
 {{$connectionArray := splitConnections $connection}}
-port:
-	{{get $connectionArray "protocol"}}:{{get $connectionArray "port"}}:
-		listening: true
-		ip:
-		- {{get $connectionArray "ip" -}}
+  {{get $connectionArray "protocol"}}://{{get $connectionArray "ip" -}}:{{get $connectionArray "port"}}:
+    reachable: true
+    timeout: 500
 {{- end -}}
 {{end}}

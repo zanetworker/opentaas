@@ -17,7 +17,7 @@ os = $(word 1, $@)
 test: $(GOVERAGE) lint 
 	go test $(PKGS)
 	goverage -race -coverprofile=coverage.out ./...
-	go tool cover -html=coverage.out
+	# go tool cover -html=coverage.out
 
 $(GOMETALINTER):
 	go get -u github.com/alecthomas/gometalinter
@@ -61,4 +61,4 @@ dry:
 
 .PHONY: doc 
 doc: dry 
-	@-./$(BINARY)  > /dev/null  2>&1 || true 
+	@-./$(BINARY)  > /dev/null  2>&1 || true  

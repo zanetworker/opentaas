@@ -52,12 +52,13 @@ func init() {
 func GenerateGossFile(portIPConnectionMapping []string, outfile, outdir string) error {
 	gossConfigOutDir := outdir + "/out/"
 
-	if _, err := os.Stat(outdir); os.IsNotExist(err) {
-		err := os.Mkdir(outdir, 0777)
+	if _, err := os.Stat(gossConfigOutDir); os.IsNotExist(err) {
+		err := os.Mkdir(gossConfigOutDir, 0777)
 		if err != nil {
 			return err
 		}
 	}
+
 	gossConfigOutPath := gossConfigOutDir + outfile
 	f, err := os.Create(gossConfigOutPath)
 	if err != nil {

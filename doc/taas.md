@@ -6,8 +6,8 @@ taas provides easily configurable services on the fly
 
 
 
-OpenTaaS (Tool-as-a-Service) is a platform that provides DevOps tools on demand (lego style). relieving you from manually configuring and tinkering with the tools config files.
-It should also deploy, monitors, and secures them for you on the platform of choice (e.g., hosted ~ [k8s, compose, swarm, etc]  or cloud-based ~ [AWS, OpenStack, Azure, etc])   
+OpenTaaS (Tool-as-a-Service) is a platform that provides DevOps tools on demand (lego style). relieving you from manually configuring and tinkering with the tools and their config files.
+It should also deploy, monitor, and secure them for you on the platform of choice (e.g., hosted ~ [k8s, compose, swarm, etc]  or cloud-based ~ [AWS, OpenStack, Azure, etc])   
 
 Environment:
 $TAAS_HOME          set an alternative TaaS location for files. By default, these are stored in ~/.taas

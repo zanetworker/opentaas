@@ -58,5 +58,4 @@ func AddComposeComponents(goss, jenkins, nginx bool) error {
 
 	//TODO: fix indentation in tools.tpl (parent template)
 	return tplCompose.ExecuteTemplate(f, "parent", composeParams)
-
 }
