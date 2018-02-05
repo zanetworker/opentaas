@@ -20,7 +20,7 @@ test: $(GOVERAGE) lint
     go tool cover -html=coverage.out
 
 .PHONY: testnolint
-test: $(GOVERAGE)
+testnolint: $(GOVERAGE)
 	go test $(PKGS)
 	goverage -race -coverprofile=coverage.out ./...
 
