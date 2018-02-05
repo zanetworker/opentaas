@@ -17,7 +17,12 @@ os = $(word 1, $@)
 test: $(GOVERAGE) lint 
 	go test $(PKGS)
 	goverage -race -coverprofile=coverage.out ./...
-	# go tool cover -html=coverage.out
+    go tool cover -html=coverage.out
+
+.PHONY: testnolint
+test: $(GOVERAGE)
+	go test $(PKGS)
+	goverage -race -coverprofile=coverage.out ./...
 
 $(GOMETALINTER):
 	go get -u github.com/alecthomas/gometalinter
