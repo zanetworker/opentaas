@@ -37,7 +37,7 @@ release:
 
 .PHONY: $(PLATFORMS) 
 $(PLATFORMS): 
-	cd cmd && GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-$(VERSION)-$(os)-amd64
+	@- cd cmd && GOOS=$(os) GOARCH=amd64 go build -o ../release/$(BINARY)-$(VERSION)-$(os)-amd64
 
 
 .PHONY: releases
