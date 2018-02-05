@@ -5,8 +5,8 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/zanetworker/taas/pkg/log"
-	"github.com/zanetworker/taas/pkg/version"
+	"github.com/zanetworker/opentaas/pkg/log"
+	"github.com/zanetworker/opentaas/pkg/version"
 )
 
 const versionDesc = `This command prints out the version of TaaS.`

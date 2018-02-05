@@ -4,8 +4,8 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/zanetworker/taas/pkg/globalutils"
-	"github.com/zanetworker/taas/pkg/log"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/log"
 )
 
 var tpl *template.Template

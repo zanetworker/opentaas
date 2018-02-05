@@ -19,8 +19,8 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/pflag"
-	"github.com/zanetworker/taas/pkg/log"
-	"github.com/zanetworker/taas/pkg/taaspath"
+	"github.com/zanetworker/opentaas/pkg/log"
+	"github.com/zanetworker/opentaas/pkg/taaspath"
 	"k8s.io/client-go/util/homedir"
 )
 

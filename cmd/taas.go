@@ -23,8 +23,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 
-	taas_env "github.com/zanetworker/taas/pkg/environment"
-	"github.com/zanetworker/taas/pkg/log"
+	taas_env "github.com/zanetworker/opentaas/pkg/environment"
+	"github.com/zanetworker/opentaas/pkg/log"
 )
 
 var (

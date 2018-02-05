@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/zanetworker/taas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
 )
 
 func getVersion() string {

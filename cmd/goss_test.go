@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zanetworker/taas/pkg/globalutils"
-	"github.com/zanetworker/taas/pkg/testutils"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/testutils"
 )
 
 //TODO: implement tests for goss command

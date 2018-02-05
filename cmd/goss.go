@@ -4,8 +4,8 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/zanetworker/taas/pkg/globalutils"
-	"github.com/zanetworker/taas/pkg/goss"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/goss"
 )
 
 const gossDesc = `

@@ -18,7 +18,7 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/zanetworker/taas/pkg/taaspath"
+	"github.com/zanetworker/opentaas/pkg/taaspath"
 )
 
 const createDesc = `

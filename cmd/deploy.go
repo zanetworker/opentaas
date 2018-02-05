@@ -5,7 +5,7 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/zanetworker/taas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
 )
 
 // deploy a service on demand based on connectivity graph described in some yaml somewhere

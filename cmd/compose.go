@@ -6,8 +6,8 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/zanetworker/taas/pkg/compose"
-	"github.com/zanetworker/taas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/compose"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
 )
 
 const composeDesc = `

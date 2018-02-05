@@ -4,7 +4,7 @@ import (
 	"runtime"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/zanetworker/taas/pkg/globalutils"
+	"github.com/zanetworker/opentaas/pkg/globalutils"
 )
 
 //Error provides error logging with a reference to the module name

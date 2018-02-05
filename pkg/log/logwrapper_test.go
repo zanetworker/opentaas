@@ -3,7 +3,7 @@ package log
 import (
 	"testing"
 
-	"github.com/zanetworker/taas/pkg/testutils"
+	"github.com/zanetworker/opentaas/pkg/testutils"
 )
 
 func TestGetFileNameCapitalized(t *testing.T) {

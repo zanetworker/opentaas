@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	yaml "github.com/ghodss/yaml"
-	"github.com/zanetworker/taas/pkg/testutils"
+	"github.com/zanetworker/opentaas/pkg/testutils"
 )
 
 //TODO: implement tests for

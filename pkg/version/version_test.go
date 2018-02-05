@@ -3,7 +3,7 @@ package version
 import (
 	"testing"
 
-	"github.com/zanetworker/taas/pkg/testutils"
+	"github.com/zanetworker/opentaas/pkg/testutils"
 )
 
 func TestGetVersionHelper(t *testing.T) {

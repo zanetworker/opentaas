@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/spf13/pflag"
-	"github.com/zanetworker/taas/pkg/environment"
-	"github.com/zanetworker/taas/pkg/taaspath"
+	"github.com/zanetworker/opentaas/pkg/environment"
+	"github.com/zanetworker/opentaas/pkg/taaspath"
 )
 
 func TestEnvSettings(t *testing.T) {

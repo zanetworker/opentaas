@@ -7,7 +7,7 @@ import (
 
 //GetDir gets diretory by name
 func GetDir(dirToGet string) string {
-	var projectPath = "/src/github.com/zanetworker/taas/"
+	var projectPath = "/src/github.com/zanetworker/opentaas/"
 
 	switch dirToGet {
 	case "config_goss":

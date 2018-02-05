@@ -3,8 +3,8 @@ package taaspath_test
 import (
 	"testing"
 
-	"github.com/zanetworker/taas/pkg/taaspath"
-	"github.com/zanetworker/taas/pkg/testutils"
+	"github.com/zanetworker/opentaas/pkg/taaspath"
+	"github.com/zanetworker/opentaas/pkg/testutils"
 )
 
 func TestTaasHome(t *testing.T) {
