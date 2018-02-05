@@ -5,7 +5,7 @@ OS ?= darwin
 # support multi-package testing which go does not support natively. 
 GOVERAGE := $(BIN_DIR)/goverage 
 GOMETALINTER := $(BIN_DIR)/gometalinter
-TAAS_BUILD_DIR := $(GOPATH)/github.com/zanetworker/taas
+TAAS_BUILD_DIR := $(GOPATH)/github.com/zanetworker/opentaas
 
 PKGS := $(shell go list ./... | grep -v /vendor)
 

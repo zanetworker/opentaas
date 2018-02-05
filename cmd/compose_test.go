@@ -48,7 +48,7 @@ func TestCompose(t *testing.T) {
 
 	for _, tt := range tests {
 
-		var projectPath = "/src/github.com/zanetworker/taas/"
+		var projectPath = "/src/github.com/zanetworker/opentaas/"
 		var composeFileToLookFor = "taascompose.yml"
 
 		t.Run(tt.name, func(t *testing.T) {

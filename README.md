@@ -8,7 +8,7 @@ OpenTaaS provides three important workflows:
 
 - [x] Create configuration files (including Dockerfiles) for supported tools.
 - [x] Compose multiple tools together as a service (composing a compose file).
-- [ ] Automate the deployment of the compose services locally to the cloud.
+- [ ] Automate the deployment of the compose services locally or to the cloud.
 - [ ] Monitor deployed tools.
 - [ ] Provide Built-in security for deployed tools.
 
@@ -34,7 +34,7 @@ make OS=<darwin|linux|windows> install
 # execute taas for command overview
 taas
 
-# build OpenTaaS binary if you don't have go installed 
+# build OpenTaaS binary if you don't have go installed
 make OS=<darwin|linux|windows> dry
 
 # execute taas command for overview
