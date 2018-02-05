@@ -1,5 +1,10 @@
 #ignore editor binaries 
 .vscode 
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # ignore logs and test outputs 
 .log 
@@ -10,3 +15,5 @@ taas
 
 # ignore release binaries
 release
+
+.DS_Store
