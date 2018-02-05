@@ -10,11 +10,11 @@ matrix:
 
   allow_failures:
     - go: master
-    
+
   fast_finish: true
 
 notifications:
   email: false
 
 script:
-  - make test
+  - make testnolint
