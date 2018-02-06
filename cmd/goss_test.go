@@ -12,7 +12,7 @@ import (
 //TODO: implement tests for goss command
 
 func TestGetGossConfigDir(t *testing.T) {
-	dirPathTrailExpected := "/taas/configs/goss"
+	dirPathTrailExpected := "/opentaas/configs/goss"
 	getGossDirPath := globalutils.GetDir("config_goss")
 
 	testutils.Assert(t, strings.Contains(getGossDirPath, dirPathTrailExpected),
