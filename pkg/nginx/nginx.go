@@ -10,7 +10,7 @@ import (
 
 var tpl *template.Template
 
-// Functions to use in teh template
+// Functions to use in the template
 var fm = template.FuncMap{
 	"splitConnections": splitConnections,
 	"get":              get,
