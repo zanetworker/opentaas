@@ -1,6 +1,6 @@
 # OpenTaaS
 
-OpenTaaS (Tool-as-a-Service) is a platform that provides tools & frameworkds on demand (lego style), relieving you from manually configuring and tinkering with the tools and their config files. It should also deploy, monitor, and secure them for you on the platform of choice (e.g., hosted ~ [k8s, compose, swarm, etc] or cloud-based ~ [AWS, OpenStack, Azure, etc]). The goal of OpenTaaS is to provide a market place of tools and frameworks with built-in monitoring and security based on common best practices on-demand.
+OpenTaaS (Tool-as-a-Service) is a platform that provides tools & frameworks on demand (lego style), relieving you from manually configuring and tinkering with the tools and their config files. It should also deploy, monitor, and secure them for you on the platform of choice (e.g., hosted ~ [k8s, compose, swarm, etc] or cloud-based ~ [AWS, OpenStack, Azure, etc]). The goal of OpenTaaS is to provide a market place of tools and frameworks with built-in monitoring and security based on common best practices on-demand.
 
 ## Overview
 
