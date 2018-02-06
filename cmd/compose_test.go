@@ -52,8 +52,23 @@ func TestCompose(t *testing.T) {
 		var composeFileToLookFor = "taascompose.yml"
 
 		t.Run(tt.name, func(t *testing.T) {
-			cmd := newComposeCmd(ioutil.Discard)
 
+			switch tt.id {
+			case "composeJenkins":
+				defer removeDummyConfigComposeServices(t, "jenkins")
+				createDummyConfigsComposedServices(t, "jenkins")
+			case "composeNginx":
+				defer removeDummyConfigComposeServices(t, "nginx")
+				createDummyConfigsComposedServices(t, "nginx")
+			case "composeGoss":
+				defer removeDummyConfigComposeServices(t, "goss")
+				createDummyConfigsComposedServices(t, "goss")
+			case "composeAll":
+				defer removeDummyConfigComposeServices(t, "jenkins", "nginx", "goss")
+				createDummyConfigsComposedServices(t, "jenkins", "nginx", "goss")
+			}
+
+			cmd := newComposeCmd(ioutil.Discard)
 			cmd.ParseFlags(tt.flags)
 
 			err := cmd.RunE(cmd, []string{})
@@ -112,4 +127,80 @@ func checkKeysExistsInYml(t *testing.T, yamlFilePath string, keysToCheck ...stri
 	// _, ok := cf.Services[keyToCheck]
 	// testutils.Assert(t, ok, fmt.Sprintf("%s key was not found in compose yaml", keyToCheck))
 
+}
+
+func createDummyConfigsComposedServices(t *testing.T, services ...string) {
+	t.Helper()
+	for _, service := range services {
+		if service == "goss" {
+			cmd := newGossCmd(ioutil.Discard)
+			err := cmd.RunE(cmd, []string{})
+			testutils.Ok(t, err)
+		}
+		if service == "jenkins" {
+			cmd := newJenkinsCmd(ioutil.Discard)
+			err := cmd.RunE(cmd, []string{})
+			testutils.Ok(t, err)
+		}
+
+		if service == "nginx" {
+			cmd := newNginxCmd(ioutil.Discard)
+			err := cmd.RunE(cmd, []string{})
+			testutils.Ok(t, err)
+		}
+	}
+
+}
+
+func removeDummyConfigComposeServices(t *testing.T, services ...string) {
+	t.Helper()
+	var projectPath = "/src/github.com/zanetworker/opentaas/"
+	var rootConfigLocation = path.Join(os.Getenv("GOPATH") + projectPath + "/configs")
+	goss, jenkins, nginx := rootConfigLocation+"/goss", rootConfigLocation+"/jenkins", rootConfigLocation+"/nginx"
+
+	for _, service := range services {
+		if service == "goss" {
+			err := func() error {
+				err := os.RemoveAll(goss + "/out")
+				if err != nil {
+					return err
+				}
+				err = os.Remove(goss + "/Dockerfile")
+				if err != nil {
+					return err
+				}
+				return nil
+			}()
+			testutils.Ok(t, err)
+		}
+		if service == "jenkins" {
+			err := func() error {
+				err := os.RemoveAll(jenkins + "/out")
+				if err != nil {
+					return err
+				}
+
+				err = os.Remove(jenkins + "/Dockerfile")
+				if err != nil {
+					return err
+				}
+				return nil
+			}()
+			testutils.Ok(t, err)
+		}
+		if service == "nginx" {
+			err := func() error {
+				err := os.RemoveAll(nginx + "/out")
+				if err != nil {
+					return err
+				}
+				err = os.Remove(nginx + "/Dockerfile")
+				if err != nil {
+					return err
+				}
+				return nil
+			}()
+			testutils.Ok(t, err)
+		}
+	}
 }
