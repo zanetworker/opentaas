@@ -36,7 +36,7 @@ make OS=<darwin|linux|windows> install
 # execute taas for command overview
 taas
 
-# build OpenTaaS binary if you don't have go installed
+# build OpenTaaS binary
 make OS=<darwin|linux|windows> dry
 
 # execute taas command for overview
