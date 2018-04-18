@@ -17,3 +17,6 @@ taas
 release
 
 .DS_Store
+
+# coverage
+*.out
