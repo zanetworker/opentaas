@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/zanetworker/opentaas/pkg/globalutils"
 	"github.com/zanetworker/opentaas/pkg/nginx"
@@ -40,5 +41,11 @@ func newNginxCmd(out io.Writer) *cobra.Command {
 }
 
 func (n *nginxParams) run() error {
-	return nginx.GenerateNginxConfFile(n.configPath, n.nginxServerPortMapping, n.clientServiceToPortMappings)
+	err := nginx.GenerateNginxConfFile(n.configPath, n.nginxServerPortMapping, n.clientServiceToPortMappings)
+	if err != nil {
+		log.Fatalf("Failed to generate configuration, error: %s", err.Error())
+	}
+
+	log.Infof("Your config was created @ \" %s \" !", n.configPath)
+	return err
 }

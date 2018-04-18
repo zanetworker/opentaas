@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/zanetworker/opentaas/pkg/globalutils"
 	"github.com/zanetworker/opentaas/pkg/jenkins"
@@ -40,5 +41,11 @@ func newJenkinsCmd(out io.Writer) *cobra.Command {
 }
 
 func (j *jenkinsParams) run() error {
-	return jenkins.GenerateJenkinsSecurityGroovy(j.configPath, j.user, j.secret)
+	err := jenkins.GenerateJenkinsSecurityGroovy(j.configPath, j.user, j.secret)
+	if err != nil {
+		log.Fatalf("Failed to generate configuration, error: %s", err.Error())
+	}
+
+	log.Infof("Your config was created @ \" %s \" !", j.configPath)
+	return err
 }

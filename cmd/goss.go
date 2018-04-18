@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/zanetworker/opentaas/pkg/globalutils"
 	"github.com/zanetworker/opentaas/pkg/goss"
@@ -42,5 +43,11 @@ func newGossCmd(out io.Writer) *cobra.Command {
 }
 
 func (g *gossParams) run() error {
+	err := goss.GenerateGossFile(g.portIPConnectionMapping, g.name, g.path)
+	if err != nil {
+		log.Fatalf("Failed to generate configuration, error: %s", err.Error())
+	}
+
+	log.Infof("Your config was created @ \" %s \" !", g.path)
 	return goss.GenerateGossFile(g.portIPConnectionMapping, g.name, g.path)
 }
