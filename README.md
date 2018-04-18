@@ -49,8 +49,8 @@ Let's go through the workflows mentioned above to understand how to use OpenTaaS
 
 - [x] Create configuration files (including Dockerfiles) for supported tools (e.g, Jenkins, Nginx, Goss)
 
-```bash 
-taas create jenkins -u user -p pass
+```bash
+taas create jenkins --user user --secret pass
 taas create nginx --frontend "jenkins:8081" --backend "jenkins:8080"
 taas create goss --conn "tcp:jenkins:8080" --conn "tcp:nginx:8081"
 ```
